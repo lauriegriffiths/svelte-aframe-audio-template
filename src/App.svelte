@@ -7,14 +7,22 @@
   let sf = 50;
   let note = 0;
 
+  let audioContext;
+
   //these buffers store temporary values to smooth out the input.  If you make them longer the values change more smoothly but the response time is slower.
   let volume_buffer = [0, 0];
   let note_buffer = [0, 0];
 
   let audioElement;
 
+  async function stopAudio() {
+    console.log("Stopping audio");
+    audioContext.close();
+
+  }
+
   async function setupAudio() {
-    const audioContext = new window.AudioContext();
+    audioContext = new window.AudioContext();
 
     const mic_stream = await navigator.mediaDevices.getUserMedia({
       audio: true,
@@ -74,5 +82,7 @@
   />
   <a-sky color="#ECECEC" />
 </a-scene>
-<button style="position:fixed;	z-index: 9999" on:click={startAudio}>Start</button
->
+<div style="position:fixed;	z-index: 9999">
+<button on:click={startAudio}>Start</button>
+<button on:click={stopAudio}>Stop</button>
+</div>
